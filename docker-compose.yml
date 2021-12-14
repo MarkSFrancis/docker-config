@@ -1,12 +1,6 @@
-# --- marksfrancis/ytdl-webserver
-# linuxserver/code-server
 # --- linuxserver/jellyfin
 # --- ghcr.io/linuxserver/plex
-# --- linuxserver/diskover
-# --- redis
-# filebrowser/filebrowser
 # --- portainer/portainer
-# --- docker.elastic.co/elasticsearch/elasticsearch
 
 version: "3.8"
 services:
