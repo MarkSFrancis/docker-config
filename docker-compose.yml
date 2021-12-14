@@ -1,0 +1,78 @@
+# --- marksfrancis/ytdl-webserver
+# linuxserver/code-server
+# --- linuxserver/jellyfin
+# --- ghcr.io/linuxserver/plex
+# --- linuxserver/diskover
+# --- redis
+# filebrowser/filebrowser
+# --- portainer/portainer
+# --- docker.elastic.co/elasticsearch/elasticsearch
+
+version: "3.8"
+services:
+  # Container management GUI
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+        - '8000:8000'
+        - '9000:9000'
+    volumes:
+        - '/var/run/docker.sock:/var/run/docker.sock'
+        - '/var/docker-configs/portainer:/data'
+    restart: unless-stopped
+
+  # Reverse proxy
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - URL=nas.place
+      - 'SUBDOMAINS=wildcard'
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+      - 'EMAIL=mrkfrancis8@gmail.com' #optional
+      - DHLEVEL=2048 #optional
+      - ONLY_SUBDOMAINS=false #optional
+    volumes:
+      - '/var/docker-configs/swag:/config'
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+
+  # Multimedia streaming platform
+  jellyfin:
+    image: ghcr.io/linuxserver/jellyfin
+    container_name: jellyfin
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - '/var/docker-configs/jellyfin:/config'
+      - /mnt/tank/media/tv-series:/data/tv-series
+      - /mnt/tank/media/movies:/data/movies
+      - /mnt/tank/media/music/library:/data/music
+    ports:
+      - '8001:8096'
+    restart: unless-stopped
+
+  # Multimedia streaming platform
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+    volumes:
+      - '/var/docker-configs/plex:/config'
+      - /mnt/tank/media/tv-series:/tv
+      - /mnt/tank/media/movies:/movies
+      - /mnt/tank/media/music/library:/music
+    restart: unless-stopped
