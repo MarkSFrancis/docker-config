@@ -66,6 +66,8 @@ services:
       - PUID=1000
       - PGID=1000
       - VERSION=docker
+    devices:
+      - '/dev/dri:/dev/dri'
     volumes:
       - '/var/docker-configs/plex:/config'
       - /mnt/tank/media/tv-series:/tv
