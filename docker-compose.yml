@@ -93,7 +93,7 @@ services:
 
   # Torrent client
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent
+    image: lscr.io/linuxserver/qbittorrent:14.3.9 # Fixed version as latest does not support our FS
     container_name: qbittorrent
     environment:
       - PUID=1000
