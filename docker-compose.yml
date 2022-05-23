@@ -92,21 +92,21 @@ services:
     restart: unless-stopped
 
   # Torrent client
-  qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:14.3.9 # Fixed version as latest does not support our FS
-    container_name: qbittorrent
+  transmission:
+    image: lscr.io/linuxserver/transmission
+    container_name: transmission
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - WEBUI_PORT=8003
+      - TRANSMISSION_WEB_HOME=/flood-for-transmission/
     volumes:
-      - '/var/docker-configs/qbittorrent:/config'
+      - '/var/docker-configs/transmission:/config'
       - '/mnt/tank/active-downloads:/downloads'
     ports:
-      - 6881:6881
-      - 6881:6881/udp
-      - 8003:8003
+      - 8003:9091
+      - 51413:51413
+      - 51413:51413/udp
     restart: unless-stopped
 
   # Torrent indexer proxy
@@ -123,4 +123,27 @@ services:
       - '/mnt/tank/active-downloads:/downloads'
     ports:
       - 8004:9117
+    restart: unless-stopped
+
+  # Music library manager
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    volumes:
+      - '/var/docker-configs/navidrome:/data'
+      - /mnt/tank/media/music/library:/music
+    ports:
+      - 8005:4533
+    restart: unless-stopped
+
+  # File browser
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    volumes:
+      - '/var/docker-configs/filebrowser/filebrowser.db:/database/filebrowser.db'
+      - '/var/docker-configs/filebrowser/config:/config'
+      - '/mnt/tank:/srv'
+    ports:
+      - 8006:80
     restart: unless-stopped
