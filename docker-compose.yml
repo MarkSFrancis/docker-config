@@ -147,3 +147,19 @@ services:
     ports:
       - 8006:80
     restart: unless-stopped
+
+  # Ebook library manager
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
+    volumes:
+      - /var/docker-configs/calibre-web:/config
+      - /mnt/tank/media/books:/books
+    ports:
+      - 8007:8083
+    restart: unless-stopped
