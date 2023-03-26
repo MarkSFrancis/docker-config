@@ -93,7 +93,9 @@ services:
 
   # Torrent client
   transmission:
-    image: lscr.io/linuxserver/transmission:latest
+    # Pinned version due to issue with Ctrl+V
+    # https://github.com/transmission/transmission/issues/5298
+    image: lscr.io/linuxserver/transmission:4.0.1
     container_name: transmission
     environment:
       - PUID=1000
