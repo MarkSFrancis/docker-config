@@ -127,15 +127,20 @@ services:
       - 8004:9117
     restart: unless-stopped
 
-  # Music library manager
-  navidrome:
-    image: deluan/navidrome:latest
-    container_name: navidrome
+  # Movie manager, which downloads requested movies  
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
     volumes:
-      - '/var/docker-configs/navidrome:/data'
-      - /mnt/tank/media/music/library:/music
+      - '/var/docker-configs/radarr:/config'
+      - /mnt/tank/media/movies:/movies #optional
+      - '/mnt/tank/active-downloads:/downloads' #optional
     ports:
-      - 8005:4533
+      - 7878:7878
     restart: unless-stopped
 
   # File browser
