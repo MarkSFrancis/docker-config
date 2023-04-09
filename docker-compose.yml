@@ -186,3 +186,19 @@ services:
     ports:
       - 8008:8337
     restart: unless-stopped
+
+  # Subtitle manager
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /var/docker-configs/bazarr:/config
+      - /mnt/tank/media/movies:/movies #optional
+      # - /mnt/tank/media/tv-series:/tv #optional
+    ports:
+      - 8009:6767
+    restart: unless-stopped
