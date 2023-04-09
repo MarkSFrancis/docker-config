@@ -140,7 +140,7 @@ services:
       - /mnt/tank/media/movies:/movies #optional
       - '/mnt/tank/active-downloads:/downloads' #optional
     ports:
-      - 7878:7878
+      - 8005:7878
     restart: unless-stopped
 
   # File browser
@@ -169,4 +169,20 @@ services:
       - /mnt/tank/media/books:/books
     ports:
       - 8007:8083
+    restart: unless-stopped
+
+  # Music library tag/metadata manager
+  beets:
+    image: lscr.io/linuxserver/beets:latest
+    container_name: beets
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /var/docker-configs/beets:/config
+      - /mnt/tank/media/music/library:/music
+      - /mnt/tank/active-downloads:/downloads
+    ports:
+      - 8008:8337
     restart: unless-stopped
