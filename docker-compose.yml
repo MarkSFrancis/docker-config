@@ -110,19 +110,17 @@ services:
     restart: unless-stopped
 
   # Torrent indexer proxy
-  jackett:
-    image: lscr.io/linuxserver/jackett:latest
-    container_name: jackett
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - AUTO_UPDATE=true #optional
     volumes:
-      - '/var/docker-configs/jackett:/config'
-      - '/mnt/tank/active-downloads:/downloads'
+      - /var/docker-configs/prowlarr:/config
     ports:
-      - 8004:9117
+      - 8004:9696
     restart: unless-stopped
 
   # Movie manager, which downloads requested movies  
