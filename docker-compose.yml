@@ -182,3 +182,32 @@ services:
     ports:
       - 8009:6767
     restart: unless-stopped
+
+  # Video optimiser
+  tdarr:
+    container_name: tdarr
+    image: ghcr.io/haveagitgat/tdarr:latest
+    ports:
+      - 8265:8265
+      - 8266:8266
+    environment:
+      - TZ=Europe/London
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=002
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - webUIPort=8265
+      - internalNode=true
+      - inContainer=true
+      - ffmpegVersion=6
+      - nodeName=MyInternalNode
+    volumes:
+      - /var/cache/tdarr/server:/app/server
+      - /var/cache/tdarr/configs:/app/configs
+      - /var/cache/tdarr/logs:/app/logs
+      - /mnt/tank/media/optimise:/media
+      - /var/cache/tdarr/temp:/temp
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped
