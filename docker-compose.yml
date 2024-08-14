@@ -180,5 +180,5 @@ services:
       - /mnt/tank/media/movies:/movies #optional
       # - /mnt/tank/media/tv-series:/tv #optional
     ports:
-      - 8009:6767
+      - 8008:6767
     restart: unless-stopped
