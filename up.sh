@@ -7,6 +7,6 @@
 sudo apt-get update
 sudo apt-get dist-upgrade -y
 sudo apt-get autoremove -y
-docker-compose pull
-docker-compose up -d --remove-orphans
+docker compose pull
+docker compose up -d --remove-orphans
 docker system prune -a -f
