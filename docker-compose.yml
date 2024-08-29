@@ -2,7 +2,6 @@
 # --- ghcr.io/linuxserver/plex
 # --- portainer/portainer
 
-version: "3.8"
 services:
   # Container management GUI
   portainer:
